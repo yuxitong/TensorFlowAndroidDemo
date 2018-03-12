@@ -1,4 +1,4 @@
-本Demo 是为了在android上跑TensorFlow模型的
+﻿本Demo 是为了在android上跑TensorFlow模型的
 方便那些想把TensorFlow官网上的demo集成到自己项目里却又找不到头绪的人使用
 
 本项目使用的是Camera2的api
