@@ -13,13 +13,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package com.tfcamerademo;
+package com.tfcamerademo.model;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Trace;
+
+import com.tfcamerademo.Classifier;
 
 import org.tensorflow.Graph;
 import org.tensorflow.Operation;
@@ -36,8 +38,8 @@ import java.util.PriorityQueue;
 import java.util.Vector;
 
 /**
- * Wrapper for frozen detection models trained using the Tensorflow Object Detection API:
- * github.com/tensorflow/models/tree/master/research/object_detection
+ *
+ * 检测图形并且绘制（规则图形矩形）
  */
 public class TensorFlowObjectDetectionAPIModel implements Classifier {
 //  private static final Logger LOGGER = new Logger();

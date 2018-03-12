@@ -28,11 +28,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -66,12 +64,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tfcamerademo.model.TensorFlowObjectDetectionAPIModel;
+import com.tfcamerademo.model.TensorFlowImageClassifier2;
 import com.tfcamerademo.view.AutoFitTextureView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,9 +76,9 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 本识别是专门用来识别抽烟、打电话、睁眼、闭眼的
+ *  用来跑道路识别
  */
-public class Camera2BasicFragment extends Fragment
+public class Camera2BasicFragment2 extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     /**
@@ -103,12 +98,9 @@ public class Camera2BasicFragment extends Fragment
     private TextView textView;
     private ImageView imageView;
     private Classifier classifier;
+    private Classifier classifier2;
 
 
-    private static final String TF_OD_API_MODEL_FILE = "file:///android_asset/frozen_inference_graph_v6.pb";
-    private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/coco_labels_list.txt";
-    private static final int TF_OD_API_INPUT_SIZE = 300;
-    private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.6f;
 
     private static float canvasWidth = 100;
     private static float canvasHeight = 100;
@@ -122,6 +114,19 @@ public class Camera2BasicFragment extends Fragment
      */
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
+
+
+    //ADAS参数
+    private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.6f;
+    private static final String MODEL_FILE = "file:///android_asset/64model2.pb";
+//    private static final String MODEL_FILE = "file:///android_asset/fcn_310_2.h5.pb";
+    private static final String LABEL_FILE =
+            "file:///android_asset/coco_labels_list.txt";
+    private static final int TF_OD_API_INPUT_SIZE = 64;
+    private static final int IMAGE_MEAN = 128;
+    private static final float IMAGE_STD = 128.0f;
+    private static final String INPUT_NAME = "batch_normalization_1_input";
+    private static final String OUTPUT_NAME = "output_node0";
     /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
      * TextureView}.
@@ -172,7 +177,7 @@ public class Camera2BasicFragment extends Fragment
     private CameraDevice cameraDevice;
 
     /**
-     * The {@link android.util.Size} of camera preview.
+     * The {@link Size} of camera preview.
      */
     private Size previewSize;
 
@@ -340,12 +345,12 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    public static Camera2BasicFragment newInstance() {
-        return new Camera2BasicFragment();
+    public static Camera2BasicFragment2 newInstance() {
+        return new Camera2BasicFragment2();
     }
 
     /**
-     * 渲染xml
+     * Layout the preview and buttons.
      */
     @Override
     public View onCreateView(
@@ -354,7 +359,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * UI控件绑定
+     * Connect the buttons to their event handler.
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
@@ -364,18 +369,27 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 加载模型与标签
+     * Load the model and labels.
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try {
-            // create either a new ImageClassifierQuantizedMobileNet or an ImageClassifierFloatInception
-            classifier = TensorFlowObjectDetectionAPIModel.create(
-                    this.getActivity().getAssets(), TF_OD_API_MODEL_FILE, TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE);
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to initialize an image classifier.");
-        }
+        // create either a new ImageClassifierQuantizedMobileNet or an ImageClassifierFloatInception
+        classifier =
+//                    TensorFlowObjectDetectionAPIModel.create(
+//                    this.getActivity().getAssets(), TF_OD_API_MODEL_FILE, TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE);
+                TensorFlowImageClassifier2.create(this.getActivity(),
+                        imageView,
+                        getActivity().getAssets(),
+                        MODEL_FILE,
+                        LABEL_FILE,
+                        TF_OD_API_INPUT_SIZE,
+                        TF_OD_API_INPUT_SIZE,
+                        IMAGE_MEAN,
+                        IMAGE_STD,
+                        INPUT_NAME,
+                        OUTPUT_NAME);
+
         startBackgroundThread();
     }
 
@@ -416,7 +430,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 设置相机参数
+     * Sets up member variables related to camera.
      *
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
@@ -512,7 +526,7 @@ public class Camera2BasicFragment extends Fragment
                     textureView.setAspectRatio(previewSize.getHeight(), previewSize.getWidth());
                 }
 
-                //修改摄像头方向  0后置摄像头  1前置摄像头
+                //修改摄像头方向
                 this.cameraId = "0";
                 return;
             }
@@ -545,7 +559,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * Opens the camera specified by {@link Camera2BasicFragment#cameraId}.
+     * Opens the camera specified by {@link Camera2BasicFragment2#cameraId}.
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void openCamera(int width, int height) {
@@ -602,7 +616,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 关闭当前摄像头
+     * Closes the current {@link CameraDevice}.
      */
     @SuppressLint("NewApi")
     private void closeCamera() {
@@ -628,7 +642,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 启动后台线程
+     * Starts a background thread and its {@link Handler}.
      */
     private void startBackgroundThread() {
         backgroundThread = new HandlerThread(HANDLE_THREAD_NAME);
@@ -641,7 +655,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 停止后台线程
+     * Stops the background thread and its {@link Handler}.
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void stopBackgroundThread() {
@@ -659,7 +673,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * 定期拍照并识别
+     * Takes photos and classify them periodically.
      */
     private Runnable periodicClassify =
             new Runnable() {
@@ -734,7 +748,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * Configures the necessary {@link android.graphics.Matrix} transformation to `textureView`. This
+     * Configures the necessary {@link Matrix} transformation to `textureView`. This
      * method should be called after the camera preview size is determined in setUpCameraOutputs and
      * also the size of `textureView` is fixed.
      *
@@ -769,7 +783,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * tensorFlow识别
+     * Classifies a frame from the preview stream.
      */
     private void classifyFrame() {
         if (classifier == null || getActivity() == null || cameraDevice == null) {
@@ -778,7 +792,9 @@ public class Camera2BasicFragment extends Fragment
         }
         Bitmap bitmap = textureView.getBitmap(TF_OD_API_INPUT_SIZE, TF_OD_API_INPUT_SIZE);
 
-        final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
+        final List<Classifier.Recognition> results = classifier.recognizeImage(
+                bitmap
+        );
 
         canvasWidth = textureView.getWidth();
         canvasHeight = textureView.getHeight();
@@ -789,58 +805,6 @@ public class Camera2BasicFragment extends Fragment
             imageView.getLayoutParams().height = textureView.getHeight();
         }
         bitmap.recycle();
-
-        Bitmap croppedBitmap = Bitmap.createBitmap((int) canvasWidth, (int) canvasHeight, Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(croppedBitmap);
-
-
-        for (final Classifier.Recognition result : results) {
-            final RectF location = result.getLocation();
-            if (location != null && result.getConfidence() >= MINIMUM_CONFIDENCE_TF_OD_API) {
-                Paint paint = new Paint();
-                Paint paint1 = new Paint();
-                if (result.getTitle().equals("openeyes")) {
-                    paint.setColor(Color.GREEN);
-                    paint1.setColor(Color.GREEN);
-                } else if (result.getTitle().equals("closeeyes")) {
-                    paint.setColor(Color.RED);
-                    paint1.setColor(Color.RED);
-
-                } else if (result.getTitle().equals("phone")) {
-                    paint.setColor(0xFFFF9900);
-                    paint1.setColor(0xFFFF9900);
-
-                } else if (result.getTitle().equals("smoke")) {
-                    paint.setColor(Color.YELLOW);
-                    paint1.setColor(Color.YELLOW);
-                } else
-                    paint.setColor(Color.WHITE);
-
-                paint.setStyle(Paint.Style.STROKE);
-                paint.setStrokeWidth(5.0f);
-                paint.setAntiAlias(true);
-                paint1.setStyle(Paint.Style.FILL);
-                paint1.setAlpha(125);
-//                canvas.drawRect(location, paint);
-                canvas.drawRect(canvasWidth * location.left / TF_OD_API_INPUT_SIZE,
-                        canvasHeight * location.top / TF_OD_API_INPUT_SIZE,
-                        canvasWidth * location.right / TF_OD_API_INPUT_SIZE,
-                        canvasHeight * location.bottom / TF_OD_API_INPUT_SIZE, paint);
-                canvas.drawRect(canvasWidth * location.left / TF_OD_API_INPUT_SIZE,
-                        canvasHeight * location.top / TF_OD_API_INPUT_SIZE,
-                        canvasWidth * location.right / TF_OD_API_INPUT_SIZE,
-                        canvasHeight * location.bottom / TF_OD_API_INPUT_SIZE, paint1);
-            }
-
-        }
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setImageBitmap(croppedBitmap);
-            }
-        });
-
-//        showToast(textToShow);
     }
 
     /**
