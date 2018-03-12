@@ -15,3 +15,4 @@ TensorFlowImageClassifier2   为车道检测之后不规则绘制（因时间仓
 
 
 接下来准备上线人体识别或者道路障碍物识别...
+![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/face.gif) ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/road.gif)
