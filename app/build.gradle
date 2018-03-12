@@ -58,5 +58,5 @@ dependencies {
     compile 'com.android.support:support-v13:25.2.0'
     //    compile 'org.tensorflow:tensorflow-lite:+'
     testCompile 'junit:junit:4.12'
-    compile files('libs/libandroid_tensorflow_inference_java.jar')
+    compile 'org.tensorflow:tensorflow-android:1.4.0'
 }
