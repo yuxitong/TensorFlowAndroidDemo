@@ -1,0 +1,4 @@
+本Demo 是为了在android上跑TensorFlow模型的
+方便那些想把TensorFlow官网上的demo集成到自己项目里却又找不到头绪的人使用
+
+另外 本项目摄像头暂时没做适配所以 高版本android是跑不起来的（但是并不影响阅读和集成）
