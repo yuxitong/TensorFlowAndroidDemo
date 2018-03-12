@@ -1,4 +1,4 @@
-本Demo 是为了在android上跑TensorFlow模型的
+﻿本Demo 是为了在android上跑TensorFlow模型的
 方便那些想把TensorFlow官网上的demo集成到自己项目里却又找不到头绪的人使用
 
 本项目使用的是Camera2的api
@@ -15,3 +15,5 @@ TensorFlowImageClassifier2   为车道检测之后不规则绘制（因时间仓
 
 
 接下来准备上线人体识别或者道路障碍物识别...
+
+![https://github.com/yuxitong/TensorFlowDemo/images/face.gif] ![https://github.com/yuxitong/TensorFlowDemo/images/road.gif]

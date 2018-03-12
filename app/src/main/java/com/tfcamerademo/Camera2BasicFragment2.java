@@ -527,7 +527,7 @@ public class Camera2BasicFragment2 extends Fragment
                 }
 
                 //修改摄像头方向
-                this.cameraId = "0";
+                this.cameraId = "1";
                 return;
             }
         } catch (CameraAccessException e) {
