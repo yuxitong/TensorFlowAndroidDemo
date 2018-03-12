@@ -1,102 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2014 The Android Open Source Project
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.youbanganda"
-    >
-    <!--android:sharedUserId="android.uid.system"-->
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SHUTDOWN"
-        tools:ignore="ProtectedPermissions" />
-    <!-- Required -->
-    <permission
-        android:name="com.youbanganda.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
-    <!-- Required -->
-    <uses-permission android:name="com.youbanganda.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!-- 写系统权限 -->
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.MASTER_CLEAR"
-        tools:ignore="ProtectedPermissions" />
-    <!-- 恢复出厂设置权限 -->
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.REORDER_TASKS" />
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <!-- 语言设置权限 -->
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <!-- 发送短信权限 -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <!-- 接收短信权限 -->
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <!-- 接收短信权限 -->
-    <uses-permission android:name="android.permission.WRITE_SMS" />
-    <!-- 接收短信权限 -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!-- 拨打电话的权限 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 取得网络状态的权限 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!-- 取得GSM信号强度权限 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 使用GPS权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- 读取本机号码和IMEI权限 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!-- 设置WIFI热点的权限 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!-- 发送GPS冷启命令的权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <!-- 获取当前活动的activity -->
+    package="com.tfcamerademo">
+
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- 访问照像机的权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!-- 允许挂载和移除文件系统可移动存储器 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 允许写扩展存储器 -->
-    <uses-permission android:name="android.permission.RECEIVE_MMS" />
-    <!-- 接收彩信权限 -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.SET_TIME_ZONE" />
-    <!-- 允许设置系统时区 -->
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- 录制视频/音频权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.REBOOT"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.DELETE_CACHE_FILES"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+    <uses-sdk android:minSdkVersion="21" />
+
+    <application android:allowBackup="true"
         android:label="@string/app_name"
-        android:persistent="true"
-        android:supportsRtl="true"
-        android:theme="@android:style/Theme.Light.NoTitleBar"
-        android:largeHeap="true"
-        tools:node="replace">
-        <activity android:name=".MainActivity">
+        android:icon="@drawable/tile"
+        android:theme="@style/MaterialTheme">
+
+        <activity android:name="com.tfcamerademo.CameraActivity"
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -3,7 +3,7 @@ openeyes
 closeeyes
 phone
 smoke
-headdown
+safety_belt
 other
 train
 truck

@@ -1,0 +1,9 @@
+本Demo 是为了在android上跑TensorFlow模型的
+方便那些想把TensorFlow官网上的demo集成到自己项目里却又找不到头绪的人使用
+
+本项目使用的是Camera2的api
+
+过段时间我还会陆续公布一些更好玩的模型
+
+
+目前本Demo模型能识别出 抽烟 打电话 闭眼 睁眼
