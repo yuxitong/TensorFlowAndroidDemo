@@ -39,7 +39,7 @@ import java.util.PriorityQueue;
 import java.util.Vector;
 
 /**
- * A classifier specialized to label images using TensorFlow.
+ * 监测道路并绘制不规则道路图形
  */
 public class TensorFlowImageClassifier2 implements Classifier {
     private static final String TAG = "TensorFlowImageClassifier";
@@ -152,8 +152,6 @@ public class TensorFlowImageClassifier2 implements Classifier {
         return c;
     }
 
-    boolean ssss;
-
     @SuppressLint("LongLogTag")
     @Override
     public List<Recognition> recognizeImage(final Bitmap bitmap) {
@@ -170,7 +168,7 @@ public class TensorFlowImageClassifier2 implements Classifier {
 //            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF) - imageMean) / imageStd;
             //以下为中心回归波纹
 //            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF)- imageMean) / imageStd; //R
-//            floatValues[i * 3 + a] = (((val >> 8) & 0xFF)- imageMean) / imageStd;  //G
+//            floatValues[i * 3 + 1] = (((val >> 8) & 0xFF)- imageMean) / imageStd;  //G
 //            floatValues[i * 3 + 2] = ((val & 0xFF)- imageMean) / imageStd;         //B
 
             //以下为改纯RGB输入
@@ -179,8 +177,7 @@ public class TensorFlowImageClassifier2 implements Classifier {
             floatValues[i * 3 + 2] = (val & 0xFF);         //B
         }
 
-//        float[] bbbbbb = bitmap2RGB(bitmap);
-//        Trace.endSection();
+        Trace.endSection();
 
 
         // Copy the input data into TensorFlow.
@@ -219,83 +216,6 @@ public class TensorFlowImageClassifier2 implements Classifier {
         }
 
 
-//        try {
-//            BufferedReader br = new BufferedReader(new InputStreamReader(context1.getAssets().open("test.out")));
-//            String str = null;
-//            StringBuffer sb = new StringBuffer();
-//            while ((str = br.readLine()) != null) {
-//                sb.append(str);
-//            }
-//            br.close();
-//
-////            Bitmap bbb = BitmapFactory.decodeResource(context1.getResources(),R.mipmap.abc);
-////            int[] abc = new int[bbb.getWidth()*bbb.getHeight()];
-////            bbb.getPixels(abc, 0, bbb.getWidth(), 0, 0, bbb.getWidth(), bbb.getHeight());
-////
-////            for (int i=0;i<abc.length;i++){
-////                Log.e("123",abc[i]+"");
-////            }
-//
-//            String[] a = sb.toString().split(",");
-//            float[] c = new float[a.length];
-//            for (int i = 0; i < a.length; i++) {
-//                c[i] = Float.parseFloat(a[i]);
-//            }
-//            int[] b = new int[160 * 80];
-//
-//            for (int i = 0; i < b.length; i++) {
-//                if (c[i] > 0) {
-////                    Log.e("123",(int) (c[i] * imageStd + imageMean)+"");
-//                    b[i] = (int) -c[i];
-//                } else {
-////                    Log.e("234","11111111111");
-//                    b[i] = 0;
-//                }
-//            }
-//
-//
-//            if (s) {
-//                return null;
-//            }
-//            try {
-//                BufferedWriter bw = new BufferedWriter(
-//                        new OutputStreamWriter(new FileOutputStream(Environment.getExternalStorageDirectory() + "/5566.txt")));
-//                bw.write(Arrays.toString(b), 0, Arrays.toString(b).length());
-//                bw.flush();
-//                bw.close();
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            final Bitmap bitmap1 = Bitmap.createBitmap(b, 160, 80, Bitmap.Config.ARGB_8888);
-//            if (iv12 != null) {
-//                iv12.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        iv12.setImageBitmap(bitmap1);
-//                    }
-//                });
-//
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-//    for (int i = 0; i < intValues.length; ++i) {
-//      final int val = intValues[i];
-//      floatValues[i * 3 + 0] = (((val >> 16) & 0xFF) - imageMean) / imageStd;
-//      floatValues[i * 3 + a] = (((val >> 8) & 0xFF) - imageMean) / imageStd;
-//      floatValues[i * 3 + 2] = ((val & 0xFF) - imageMean) / imageStd;
-//    }
-
-
-//        Log.e("123", outputs.length + "   " + Arrays.toString(outputs));
-
-//    Log.i(TAG, "inferenceInterface.fetch(outputName, outputs); " + SS);
-//    Log.i(TAG, "inferenceInterface.fetch(outputName, outputs); " + " "+outputs.length);
         int res_len = outputs.length;
         Log.i(TAG, "inferenceInterface.fetch(outputName, outputs); " + " " + outputs[res_len - 4] + " " + outputs[res_len - 3] + " " + outputs[res_len - 2] + " " + outputs[res_len - 1]);
 
@@ -341,66 +261,5 @@ public class TensorFlowImageClassifier2 implements Classifier {
     @Override
     public void close() {
         inferenceInterface.close();
-    }
-
-
-    /**
-     * 将彩色图转换为灰度图
-     *
-     * @param img 位图
-     * @return 返回转换好的位图
-     */
-    public Bitmap convertGreyImg(Bitmap img) {
-        int width = img.getWidth();         //获取位图的宽
-        int height = img.getHeight();       //获取位图的高
-
-        int[] pixels = new int[width * height]; //通过位图的大小创建像素点数组
-
-        img.getPixels(pixels, 0, width, 0, 0, width, height);
-        int alpha = 0xFF << 24;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int grey = pixels[width * i + j];
-
-                int red = ((grey & 0x00FF0000) >> 16);
-                int green = ((grey & 0x0000FF00) >> 8);
-                int blue = (grey & 0x000000FF);
-
-                grey = (int) ((float) red * 0.3 + (float) green * 0.59 + (float) blue * 0.11);
-                grey = alpha | (grey << 16) | (grey << 8) | grey;
-                pixels[width * i + j] = grey;
-            }
-        }
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        result.setPixels(pixels, 0, width, 0, 0, width, height);
-        return result;
-    }
-
-
-    /**
-     * @方法描述 Bitmap转RGB
-     */
-    public static float[] bitmap2RGB(Bitmap bitmap) {
-        int bytes = bitmap.getByteCount();  //返回可用于储存此位图像素的最小字节数
-
-        ByteBuffer buffer = ByteBuffer.allocate(bytes); //  使用allocate()静态方法创建字节缓冲区
-        bitmap.copyPixelsToBuffer(buffer); // 将位图的像素复制到指定的缓冲区
-
-        byte[] rgba = buffer.array();
-        float[] pixels = new float[(rgba.length / 4) * 3];
-
-        int count = rgba.length / 4;
-
-        //Bitmap像素点的色彩通道排列顺序是RGBA
-        for (int i = 0; i < count; i++) {
-
-            pixels[i * 3] = rgba[i * 4];        //R
-            pixels[i * 3 + 1] = rgba[i * 4 + 1];    //G
-            pixels[i * 3 + 2] = rgba[i * 4 + 2];       //B
-
-            Log.e("456", pixels[i * 3] + "   " + pixels[i * 3 + 1] + "    " + pixels[i * 3 + 2]);
-        }
-
-        return pixels;
     }
 }

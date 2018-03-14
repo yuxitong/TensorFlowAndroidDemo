@@ -21,6 +21,7 @@ import android.os.Bundle;
 
 import com.tfcamerademo.Camera2BasicFragment;
 import com.tfcamerademo.Camera2BasicFragment2;
+import com.tfcamerademo.Camera2BasicFragment3;
 import com.tfcamerademo.R;
 
 /**
@@ -41,6 +42,9 @@ public class CameraActivity extends Activity {
                     break;
                 case 2:
                     fragment = Camera2BasicFragment2.newInstance();
+                    break;
+                case 3:
+                    fragment = Camera2BasicFragment3.newInstance();
                     break;
             }
             getFragmentManager()

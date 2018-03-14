@@ -30,6 +30,14 @@ public class MainActivity extends Activity {
                 MainActivity.this.startActivity(intent);
             }
         });
+        findViewById(R.id.bodyBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,CameraActivity.class);
+                intent.putExtra("Flag",3);
+                MainActivity.this.startActivity(intent);
+            }
+        });
 
 
     }

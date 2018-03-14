@@ -22,5 +22,12 @@
         android:layout_marginTop="50dp"
         android:text="道路识别（车道线）"
         />
+    <Button
+        android:id="@+id/bodyBtn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="人体骨架识别"
+        />
 
 </LinearLayout>
