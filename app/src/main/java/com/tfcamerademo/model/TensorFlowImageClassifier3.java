@@ -165,12 +165,6 @@ public class TensorFlowImageClassifier3 implements Classifier {
         bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         for (int i = 0; i < intValues.length; ++i) {
             final int val = intValues[i];
-//            Log.e("123",val+"");
-//            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF) - imageMean) / imageStd;
-            //以下为中心回归波纹
-//            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF)- imageMean) / imageStd; //R
-//            floatValues[i * 3 + 1] = (((val >> 8) & 0xFF)- imageMean) / imageStd;  //G
-//            floatValues[i * 3 + 2] = ((val & 0xFF)- imageMean) / imageStd;         //B
 
             //以下为改纯RGB输入
             floatValues[i * 3 + 2] = ((val >> 16) & 0xFF); //R
@@ -226,7 +220,6 @@ public class TensorFlowImageClassifier3 implements Classifier {
 
         //取出每18个点中最大的点
         float[] floats4 = new float[((outputs.length / 57) * 19) * 18];
-        Log.e("abcde", floats2.length + " ");
         for (int i = 0, sum = 0; i < floats2.length; i++) {
             for (int j = 0; j < floats2[i].length; j++) {
                 floats4[sum] = floats2[i][j];
@@ -236,10 +229,11 @@ public class TensorFlowImageClassifier3 implements Classifier {
 
         //将点颜色显示出来
         for (int j = 0; j < floats3.length; j++) {
-            // 负号是为了反码的时候 32位能让其他通道都变为11111
-            int c = (int) -(floats3[j] * 255);
-            //4通道输出  分别是 ARGB  其中 A通道C<<24是为了让有颜色的地方透明度低些 让没有颜色的地方透明度高一些
-            b[j] = c;
+            //这个是设置识别准确度多少以上保留数值越大越精确 同样识别出来的东西越少
+            if (floats3[j] > 0.3f) {
+                //识别准确度大于0.3f则显示为绿色
+                b[j] = 0xff << 24 | 0xff << 8;
+            }
         }
 
 
@@ -262,30 +256,30 @@ public class TensorFlowImageClassifier3 implements Classifier {
         Trace.endSection();
 
         // Find the best classifications.
-        PriorityQueue<Recognition> pq =
-                new PriorityQueue<Recognition>(
-                        3,
-                        new Comparator<Recognition>() {
-                            @Override
-                            public int compare(Recognition lhs, Recognition rhs) {
-                                // Intentionally reversed to put high confidence at the head of the queue.
-                                return Float.compare(rhs.getConfidence(), lhs.getConfidence());
-                            }
-                        });
-        for (int i = 0; i < outputs.length; ++i) {
-            if (outputs[i] > THRESHOLD) {
-                pq.add(
-                        new Recognition(
-                                "" + i, labels.size() > i ? labels.get(i) : "unknown", outputs[i], null));
-            }
-        }
-        final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
-        int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
-        for (int i = 0; i < recognitionsSize; ++i) {
-            recognitions.add(pq.poll());
-        }
+//        PriorityQueue<Recognition> pq =
+//                new PriorityQueue<Recognition>(
+//                        3,
+//                        new Comparator<Recognition>() {
+//                            @Override
+//                            public int compare(Recognition lhs, Recognition rhs) {
+//                                // Intentionally reversed to put high confidence at the head of the queue.
+//                                return Float.compare(rhs.getConfidence(), lhs.getConfidence());
+//                            }
+//                        });
+//        for (int i = 0; i < outputs.length; ++i) {
+//            if (outputs[i] > THRESHOLD) {
+//                pq.add(
+//                        new Recognition(
+//                                "" + i, labels.size() > i ? labels.get(i) : "unknown", outputs[i], null));
+//            }
+//        }
+//        final ArrayList<Recognition> recognitions = new ArrayList<Recognition>();
+//        int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
+//        for (int i = 0; i < recognitionsSize; ++i) {
+//            recognitions.add(pq.poll());
+//        }
         Trace.endSection(); // "recognizeImage"
-        return recognitions;
+        return null;
     }
 
     @Override

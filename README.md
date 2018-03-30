@@ -2,8 +2,11 @@
 方便那些想把TensorFlow官网上的demo集成到自己项目里却又找不到头绪的人使用
 
 正所谓前人栽树后人乘凉
+
 [https://github.com/tensorflow/tensorflow](https://github.com/tensorflow/tensorflow)
+
 [https://github.com/ildoonet/tf-pose-estimation](https://github.com/ildoonet/tf-pose-estimation)
+
 Denis Tome, Chris Russell, Lourdes Agapito提出的Convolutional 3D Pose Estimation from a Single Image论文
 
 在此特别感谢上述作者，喜欢原作的可以去使用原项目。同时欢迎大家下载体验本项目，如果使用过程中遇到什么问题，欢迎反馈。
@@ -24,4 +27,13 @@ TensorFlowImageClassifier2   为车道检测之后不规则绘制（因时间仓
 TensorFlowImageClassifier3  是用来识别人体骨架的  这个模型是有特定输入和特定输出的  需要经过3层转换 才能使用
 接下来准备上线道路障碍物识别...
 
+TensorFlowImageClassifier4  
+这是一个用检测来识别车道和前车
+里面增加了点逻辑来判断是否是车道偏离或者前车过近
+具体做法是
+如果检测出线则判断斜率k = (y2-y1)/(x2-x1)然后设定一个固定斜率来判断是否是车道偏离
+如果是检测出前面的车辆中心点在横屏8分之2到8分之6的范围内则判断中心点居上距离大于一定范围则算前车过近
+         或者如果车的高度大于一定级别则算前车过近
 ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/face.gif) ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/road.gif)![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/body.gif)
+
+![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/carAndLine.gif)
