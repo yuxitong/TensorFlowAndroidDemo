@@ -34,6 +34,15 @@ TensorFlowImageClassifier4
 如果检测出线则判断斜率k = (y2-y1)/(x2-x1)然后设定一个固定斜率来判断是否是车道偏离
 如果是检测出前面的车辆中心点在横屏8分之2到8分之6的范围内则判断中心点居上距离大于一定范围则算前车过近
          或者如果车的高度大于一定级别则算前车过近
-![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/face.gif) ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/road.gif)![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/body.gif)
+         
+另外： 有人私下问我本项目在他们的手机上跑起来卡顿严重
+       这是算力的问题，目前tensorFlow在移动设备上貌似不支持GPU，而CPU的浮点运算速度比较慢导致的
+       推荐使用华为P10 或者 骁龙845 635之类的U来跑跑看 
+       一般P10的话 1能一秒4帧  2能1秒8帧   3能一秒1帧  4能一秒6帧左右
+       当然以上数据仅供产考
+         
+         
+         
+![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/face.gif)  ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/road.gif)  ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/body.gif)
 
 ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/carAndLine.gif)
