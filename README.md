@@ -27,7 +27,7 @@ TensorFlowImageClassifier2   为车道检测之后不规则绘制（因时间仓
 TensorFlowImageClassifier3  是用来识别人体骨架的  这个模型是有特定输入和特定输出的  需要经过3层转换 才能使用
 接下来准备上线道路障碍物识别...
 
-TensorFlowImageClassifier4  
+Camera2BasicFragment4
 这是一个用检测来识别车道和前车
 里面增加了点逻辑来判断是否是车道偏离或者前车过近
 具体做法是
