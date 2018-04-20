@@ -194,6 +194,7 @@ public class TensorFlowImageClassifier3 implements Classifier {
         int[] b = new int[46 * 46 * 57];
         //取出第一个通道色彩值
         float[][] floats5 = new float[(outputs.length / 57) * 19][19];
+        //转成矩阵把小于0.1的值归0
         for (int i = 0, sum = -1; i < outputs.length; i++) {
             if (0 <= i % 57 && i % 57 < 19) {
                 if (0 == i % 57)
@@ -207,32 +208,181 @@ public class TensorFlowImageClassifier3 implements Classifier {
         for (int i = 0; i < floats5.length; i++) {
             System.arraycopy(floats5[i], 0, floats2[i], 0, 18);
         }
+
+        //取出每18个点中的最大的点
         float max = 0;
         float[] floats3 = new float[(outputs.length / 57) * 19];
-        for (int i = 0; i < floats2.length; i++) {
+        for (int i = 0, sum = -1; i < floats2.length; i++) {
             for (int j = 0; j < floats2[i].length; j++) {
-                if (floats2[i][j] > max)
-                    max = floats2[i][j];
+                sum++;
+                if (floats2[i][j] > max) {
+                    //这个是设置识别准确度多少以上保留数值越大越精确 同样识别出来的东西越少
+                    if (floats2[i][j] > 0.3f)
+                        switch (sum % 18) {
+                            case 0:
+                                //鼻子
+                                //这里写20的原因是因为 0太多了 如果写0的话 就会和空白处重复
+                                max = 19;
+                                break;
+                            case 1:
+                                //脖子
+                                max = 1;
+                                break;
+                            case 2:
+                                //右上臂
+                                max = 2;
+                                break;
+                            case 3:
+                                //右肘关节
+                                max = 3;
+                                break;
+                            case 4:
+                                //右手腕关节
+                                max = 4;
+                                break;
+                            case 5:
+                                //左肩
+                                max = 5;
+                                break;
+                            case 6:
+                                //左肘关节
+                                max = 6;
+                                break;
+                            case 7:
+                                //左手腕关节
+                                max = 7;
+                                break;
+                            case 8:
+                                //右臀部
+                                max = 8;
+                                break;
+                            case 9:
+                                //右膝关节
+                                max = 9;
+                                break;
+                            case 10:
+                                //右裸关节
+                                max = 10;
+                                break;
+                            case 11:
+                                //左臀部
+                                max = 11;
+                                break;
+                            case 12:
+                                //左膝关节
+                                max = 12;
+                                break;
+                            case 13:
+                                //左裸关节
+                                max = 13;
+                                break;
+                            case 14:
+                                //右眼
+                                max = 14;
+                                break;
+                            case 15:
+                                //左眼
+                                max = 15;
+                                break;
+                            case 16:
+                                //右耳
+                                max = 16;
+                                break;
+                            case 17:
+                                //左耳
+                                max = 17;
+                                break;
+                            case 18:
+                                //背景（因为背景没有识别值 所以自动过滤掉了）
+                                max = 18;
+                                break;
+                        }
+                }
             }
             floats3[i] = max;
             max = 0;
         }
 
-        //取出每18个点中最大的点
-        float[] floats4 = new float[((outputs.length / 57) * 19) * 18];
-        for (int i = 0, sum = 0; i < floats2.length; i++) {
-            for (int j = 0; j < floats2[i].length; j++) {
-                floats4[sum] = floats2[i][j];
-                sum++;
-            }
-        }
-
         //将点颜色显示出来
         for (int j = 0; j < floats3.length; j++) {
-            //这个是设置识别准确度多少以上保留数值越大越精确 同样识别出来的东西越少
-            if (floats3[j] > 0.3f) {
-                //识别准确度大于0.3f则显示为绿色
-                b[j] = 0xff << 24 | 0xff << 8;
+            //以下为20种颜色值（不保证是否重复，不同颜色值的意义是 告诉大家这是不同部位）
+            switch ((int) floats3[j]) {
+                case 1:
+                    //脖子
+                    b[j] = 0xff << 24 | 0xff << 8;
+                    break;
+                case 2:
+                    //右肩
+                    b[j] = 0xff << 24 | 0xff;
+                    break;
+                case 3:
+                    //右肘关节
+                    b[j] = 0xff << 24 | 0xff << 8 | 0xff;
+                    break;
+                case 4:
+                    //右手腕关节
+                    b[j] = 0xff << 24 | 0xff << 16 | 0xff;
+                    break;
+                case 5:
+                    //左肩
+                    b[j] = 0xff << 24 | 0xff << 16 | 0xff << 8;
+                    break;
+                case 6:
+                    //左肘关节
+                    b[j] = 0xff << 24 | 0xff << 16 | 0x0f << 8;
+                    break;
+                case 7:
+                    //左手腕关节
+                    b[j] = 0xff << 24 | 0x0f << 16 | 0x0f << 8;
+                    break;
+                case 8:
+                    //右臀部
+                    b[j] = 0xff << 24 | 0x0f << 16 | 0x0f << 8 | 0xff;
+                    break;
+                case 9:
+                    //右膝关节
+                    b[j] = 0xff << 24 | 0xff << 16 | 0x0f << 8 | 0x0f;
+                    break;
+                case 10:
+                    //右裸关节
+                    b[j] = 0xff << 24 | 0xff << 16 | 0xff << 8 | 0x0f;
+                    break;
+                case 11:
+                    //左臀部
+                    b[j] = 0xff << 24 | 0x0f << 16 | 0xff << 8 | 0x0f;
+                    break;
+                case 12:
+                    //左膝关节
+                    b[j] = 0xff << 24 | 0xff << 8 | 0x0f;
+                    break;
+                case 13:
+                    //左裸关节
+                    b[j] = 0xff << 24 | 0x0f << 8 | 0x0f;
+                    break;
+                case 14:
+                    //右眼
+                    b[j] = 0xff << 24 | 0x0f << 16 | 0x0f << 8 | 0x0f;
+                    break;
+                case 15:
+                    //左眼
+                    b[j] = 0xff << 24 | 0x5f << 16;
+                    break;
+                case 16:
+                    //右耳
+                    b[j] = 0xff << 24 | 0x5f << 8;
+                    break;
+                case 17:
+                    //左耳
+                    b[j] = 0xff << 24 | 0xff << 16 | 0x0f;
+                    break;
+                case 18:
+                    //背景（因为背景没有识别值 所以自动过滤掉了）
+                    b[j] = 0xff << 24 | 0x0f;
+                    break;
+                case 19:
+                    //鼻子
+                    b[j] = 0xff << 24 | 0x0f << 8;
+                    break;
             }
         }
 
