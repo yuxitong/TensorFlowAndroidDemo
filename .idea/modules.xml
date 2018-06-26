@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TensorFlowDemo.iml" filepath="$PROJECT_DIR$/TensorFlowDemo.iml" />
-      <module fileurl="file://C:\Users\30884\Desktop\TensorFlowDemo\TensorFlowDemo.iml" filepath="C:\Users\30884\Desktop\TensorFlowDemo\TensorFlowDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\30884\Desktop\TensorFlowDemo\app\app.iml" filepath="C:\Users\30884\Desktop\TensorFlowDemo\app\app.iml" />
     </modules>
   </component>
 </project>
