@@ -18,7 +18,7 @@ Denis Tome, Chris Russell, Lourdes Agapito提出的Convolutional 3D Pose Estimat
 
 过段时间我还会陆续公布一些更好玩的模型
 
-如果想要体验本项目，请直接下载apk：[点击下载](https://github.com/yuxitong/TensorFlowAndroidDemo/blob/master/apk/app-debug.apk)
+如果想要体验本项目，请直接下载apk：[点击下载](https://github.com/yuxitong/TensorFlowAndroidDemo/raw/master/apk/app-debug.apk)
 
 目前本Demo模型能识别出 抽烟 打电话 闭眼 睁眼
 
