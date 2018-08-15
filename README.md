@@ -18,6 +18,7 @@ Denis Tome, Chris Russell, Lourdes Agapito提出的Convolutional 3D Pose Estimat
 
 过段时间我还会陆续公布一些更好玩的模型
 
+如果想要体验本项目，请直接下载apk：[点击下载](https://github.com/yuxitong/TensorFlowAndroidDemo/blob/master/apk/app-debug.apk)
 
 目前本Demo模型能识别出 抽烟 打电话 闭眼 睁眼
 
@@ -126,6 +127,6 @@ W*H*19每一层的解释
 
 然后拿出所有连线的集合 找出相同点的连线连接 就出现了人体骨架
 
-![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/face.gif)  ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/road.gif)  ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/body.gif)
+![image](https://github.com/yuxitong/TensorFlowAndroidDemo/blob/master/image/face.gif)  ![image](https://github.com/yuxitong/TensorFlowAndroidDemo/blob/master/image/road.gif)  ![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/body.gif)
 
-![image](https://github.com/yuxitong/TensorFlowDemo/blob/master/image/carAndLine.gif)
+![image](https://github.com/yuxitong/TensorFlowAndroidDemo/blob/master/image/carAndLine.gif)
