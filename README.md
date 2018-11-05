@@ -11,6 +11,8 @@ Denis Tome, Chris Russell, Lourdes Agapito提出的Convolutional 3D Pose Estimat
 
 在此特别感谢上述作者，喜欢原作的可以去使用原项目。同时欢迎大家下载体验本项目，如果使用过程中遇到什么问题，欢迎反馈。
 
+如果需要自动打标请使用：[https://github.com/yuxitong/AutoMarKingTensorFlowPython](https://github.com/yuxitong/AutoMarKingTensorFlowPython)
+
 另外特别感谢
 
 	zyxcambridge(https://github.com/zyxcambridge) 童鞋
