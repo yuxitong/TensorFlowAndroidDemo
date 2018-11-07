@@ -165,16 +165,16 @@ public class TensorFlowImageClassifier2 implements Classifier {
         for (int i = 0; i < intValues.length; ++i) {
             final int val = intValues[i];
 //            Log.e("123",val+"");
-//            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF) - imageMean) / imageStd;
+//            floatValues[i * 3 + 0] = ((val >> 16) - imageMean) / imageStd;
             //以下为中心回归波纹
-//            floatValues[i * 3 + 0] = (((val >> 16) & 0xFF)- imageMean) / imageStd; //R
-//            floatValues[i * 3 + 1] = (((val >> 8) & 0xFF)- imageMean) / imageStd;  //G
-//            floatValues[i * 3 + 2] = ((val & 0xFF)- imageMean) / imageStd;         //B
+//            floatValues[i * 3 + 0] = ((val >> 16) - imageMean) / imageStd; //R
+//            floatValues[i * 3 + 1] = ((val >> 8) - imageMean) / imageStd;  //G
+//            floatValues[i * 3 + 2] = (val - imageMean) / imageStd;         //B
 
             //以下为改纯RGB输入
-            floatValues[i * 3 + 0] = ((val >> 16) & 0xFF); //R
-            floatValues[i * 3 + 1] = ((val >> 8) & 0xFF);  //G
-            floatValues[i * 3 + 2] = (val & 0xFF);         //B
+            floatValues[i * 3 + 0] = (val >> 16); //R
+            floatValues[i * 3 + 1] = (val >> 8) ;  //G
+            floatValues[i * 3 + 2] = val ;         //B
         }
 
         Trace.endSection();

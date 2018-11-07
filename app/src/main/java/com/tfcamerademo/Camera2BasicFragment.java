@@ -69,9 +69,7 @@ import android.widget.Toast;
 import com.tfcamerademo.model.TensorFlowObjectDetectionAPIModel;
 import com.tfcamerademo.view.AutoFitTextureView;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

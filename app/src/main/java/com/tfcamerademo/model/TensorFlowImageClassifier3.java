@@ -96,9 +96,9 @@ public class TensorFlowImageClassifier3 implements Classifier {
         //相机读取到的图像解释为三通道位图
         for (int i = 0; i < raw_input_image.length; ++i) {
             final int val = raw_input_image[i];
-            rgb_input_image[i * 3 + 2] = ((val >> 16) & 0xFF); //R
-            rgb_input_image[i * 3 + 1] = ((val >> 8) & 0xFF);  //G
-            rgb_input_image[i * 3 + 0] = (val & 0xFF);        //B
+            rgb_input_image[i * 3 + 2] = (val >> 16); //R
+            rgb_input_image[i * 3 + 1] = (val >> 8) ;  //G
+            rgb_input_image[i * 3 + 0] = val ;        //B
         }
     }
 
