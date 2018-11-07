@@ -172,9 +172,9 @@ public class TensorFlowImageClassifier2 implements Classifier {
 //            floatValues[i * 3 + 2] = (val - imageMean) / imageStd;         //B
 
             //以下为改纯RGB输入
-            floatValues[i * 3 + 0] = (val >> 16); //R
-            floatValues[i * 3 + 1] = (val >> 8) ;  //G
-            floatValues[i * 3 + 2] = val ;         //B
+            floatValues[i * 3 + 0] = (byte)(val >> 16); //R
+            floatValues[i * 3 + 1] = (byte)(val >> 8) ;  //G
+            floatValues[i * 3 + 2] = (byte)val ;         //B
         }
 
         Trace.endSection();

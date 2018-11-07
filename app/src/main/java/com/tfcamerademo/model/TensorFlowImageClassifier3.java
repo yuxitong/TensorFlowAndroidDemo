@@ -94,12 +94,15 @@ public class TensorFlowImageClassifier3 implements Classifier {
 
     private void change_raw_to_rgb_inplace() {
         //相机读取到的图像解释为三通道位图
+        long kk = System.currentTimeMillis();
         for (int i = 0; i < raw_input_image.length; ++i) {
             final int val = raw_input_image[i];
-            rgb_input_image[i * 3 + 2] = (val >> 16); //R
-            rgb_input_image[i * 3 + 1] = (val >> 8) ;  //G
-            rgb_input_image[i * 3 + 0] = val ;        //B
+            rgb_input_image[i * 3 + 2] = (byte)(val >> 16); //R
+            rgb_input_image[i * 3 + 1] = (byte)(val >> 8) ;  //G
+            rgb_input_image[i * 3 + 0] = (byte)val ;        //B
+
         }
+        Log.e("abc", System.currentTimeMillis() - kk+"");
     }
 
 
