@@ -15,9 +15,10 @@ Denis Tome, Chris Russell, Lourdes Agapito提出的Convolutional 3D Pose Estimat
 
 另外特别感谢
 
-	zyxcambridge(https://github.com/zyxcambridge) 童鞋
-	manoshape(https://github.com/manoshape) 童鞋
-        	本项目模型由zyxcambridge和manoshape提供
+	[zyxcambridge](https://github.com/zyxcambridge) 童鞋
+	[manoshape](https://github.com/manoshape) 童鞋
+	[seriouslyhao](https://github.com/seriouslyhao) 童鞋
+        	本项目模型由zyxcambridge、manoshape、seriouslyhao提供
 
 本项目使用的是Camera2的api
 
